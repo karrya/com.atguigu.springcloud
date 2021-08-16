@@ -1,0 +1,39 @@
+server:
+  port: 3366
+
+spring:
+  application:
+    name: config-client
+  cloud:
+    # Config客户端配置
+    config:
+      label: master #分支名称
+      name: config #配置文件名
+      profile: dev # 读取后缀名称，上述三个综述： master分支上的config-dev.yml配置文件被读取 http://config-3344.com:3344/master/config-dev.yml
+      uri: http://localhost:3344 #配置中心地址
+  #配置RabbitMQ相关信息
+  rabbitmq:
+    host: 192.168.25.110
+    port: 5672
+    username: guest
+    password: guest
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+  instance:
+    instance-id: config-bus-3366
+    prefer-ip-address: true
+
+#暴露监控端点，用于在SpringCould Config配置中，客户端不能自动刷新
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: '*'
+      cors:
+        allowed-methods: '*'
